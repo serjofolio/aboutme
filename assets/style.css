@@ -657,3 +657,4 @@ main{position:relative;z-index:5}
 .idol .quotes li::before{content:'「';color:var(--c)}.idol .quotes li::after{content:'」';color:var(--c)}
 @media (max-width:720px){.record{width:120px;height:120px}.record .face{width:68px;height:68px;margin:-34px 0 0 -34px}}
 .idol .quotes.songs li::before,.idol .quotes.songs li::after{content:none}
+.record .face{animation:none}.idol:hover .record .face{animation:none;transform:scale(1.06)}.record .face{transition:transform .4s}
