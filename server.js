@@ -19,6 +19,7 @@ const ROOT = __dirname;
 const DATA_DIR = process.env.DATA_DIR || path.join(ROOT, 'data');
 const CFG_FILE = path.join(DATA_DIR, 'twin.json');
 const PORT = +process.env.PORT || 5200;
+const VERSION = Date.now().toString(36);
 const HOST = process.env.HOST || '0.0.0.0';
 
 /* ---------------- 供应商预设（和 CC Switch 一样一键填好地址） ---------------- */
@@ -199,7 +200,13 @@ function serveStatic(req, res) {
   if (rel.startsWith('..') || /^(data|node_modules)([\\/]|$)/.test(rel) || rel === 'server.js' || /(^|[\\/])\./.test(rel) || !MIME[path.extname(file)]) { res.writeHead(404); return res.end('Not found'); }
   fs.stat(file, (err, st) => {
     if (err || !st.isFile()) { res.writeHead(404); return res.end('Not found'); }
-    res.writeHead(200, { 'Content-Type': MIME[path.extname(file)], 'Content-Length': st.size, 'Cache-Control': /\.(html|js|css)$/.test(file) ? 'no-cache' : 'public, max-age=86400' });
+    // 网页里的 ?v=__V__ 换成本次启动的版本号：每次部署（重启）后资源地址都会变，浏览器和 Cloudflare 不会再用旧缓存
+    if (/\.html$/.test(file)) {
+      const html = fs.readFileSync(file, 'utf8').replace(/__V__/g, VERSION);
+      res.writeHead(200, { 'Content-Type': MIME['.html'], 'Cache-Control': 'no-cache' });
+      return res.end(html);
+    }
+    res.writeHead(200, { 'Content-Type': MIME[path.extname(file)], 'Content-Length': st.size, 'Cache-Control': req.url.includes('?v=') ? 'public, max-age=31536000, immutable' : /\.(js|css)$/.test(file) ? 'no-cache' : 'public, max-age=86400' });
     fs.createReadStream(file).pipe(res);
   });
 }
