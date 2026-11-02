@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="gold">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>黄奕锋 · AI Agent Engineer</title>
+<meta name="description" content="黄奕锋 —— AI Agent 开发工程师。LangGraph / MCP / RAG / Multi-Agent / 人形机器人 Agent / 跨境电商运营智能体。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 80'><path d='M8 6V74M8 40H38M38 6V74M52 6L67 36L82 6M67 36V74' fill='none' stroke='%23e9b45c' stroke-width='10'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;800&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="booting">
+
+<canvas id="matrix" aria-hidden="true"></canvas>
+<div class="vignette"></div><div class="scanlines"></div><div class="noise"></div>
+<div class="cur-dot"></div><div class="cur-ring"></div>
+
+<!-- ============ BOOT ============ -->
+<div id="boot">
+  <div class="half top"></div><div class="half bot"></div>
+  <div class="term">
+    <div id="bootLines"></div>
+    <div class="bar"><i id="bootBar"></i></div>
+    <div class="pct"><span id="bootStage">BOOTING HYF-OS</span><span id="bootPct">0%</span></div>
+    <div class="granted" id="granted">ACCESS GRANTED</div>
+  </div>
+  <div class="skip">[ 点击任意处跳过 ]</div>
+</div>
+
+<!-- ============ PAGE TRANSITION ============ -->
+<div id="wipe" aria-hidden="true">
+  <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+  <div class="lbl"><span id="wipeLbl"></span><small id="wipeSub"></small><div class="bar"><b></b></div></div>
+</div>
+
+<!-- ============ CHROME ============ -->
+<header class="topnav">
+  <a class="brand" href="#/"><b>~/</b>huangyifeng</a>
+  <div class="rule"></div>
+  <nav class="links" id="navLinks"></nav>
+  <div class="nav-btns">
+    <button class="icon-btn" id="btnTheme" title="切换配色" aria-label="切换配色"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path class="fill" d="M12 3.5a8.5 8.5 0 0 1 0 17z"/></svg></button>
+    <button class="icon-btn" id="btnMenu" title="全部页面 (M)" aria-label="打开菜单"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6"/><rect x="14" y="4" width="6" height="6"/><rect x="4" y="14" width="6" height="6"/><rect x="14" y="14" width="6" height="6"/></svg></button>
+  </div>
+</header>
+<div class="corner bl"><b id="routeLabel">~/</b> · SZ 22.54°N 114.06°E · <span id="clock">--:--:--</span></div>
+<button class="corner br" id="btnSound" aria-label="背景音乐开关"><span class="eq"><i></i><i></i><i></i><i></i></span>空间：<b id="soundLbl">聆听</b></button>
+
+<div id="menu" aria-hidden="true">
+  <button class="close" id="menuClose">[ ESC ] 关闭</button>
+  <ul id="menuList"></ul>
+  <div class="menu-foot" id="menuThemes"></div>
+  <div class="keys">快捷键：<kbd>1</kbd>–<kbd>9</kbd>/<kbd>0</kbd> 跳转页面 · <kbd>H</kbd> 首页 · <kbd>M</kbd> 菜单 · <kbd>~</kbd> 终端</div>
+</div>
+
+<main id="app">
+
+<!-- ============ HOME ============ -->
+<section class="page" data-page="home">
+  <div class="home">
+    <aside class="hud l">
+      <h4>SYSTEM STATUS</h4>
+      <div class="kv"><span>USER</span><b>黄奕锋</b></div>
+      <div class="kv"><span>ROLE</span><b>AI Agent Engineer</b></div>
+      <div class="kv"><span>LOC</span><b>深圳 · SZ</b></div>
+      <div class="kv"><span>STATUS</span><b class="live">● building</b></div>
+      <div class="kv"><span>STACK</span><b>LangGraph · MCP · RAG</b></div>
+      <div class="kv"><span>LIVE</span><b>tkagent.hyff.cc.cd</b></div>
+      <div class="kv"><span>OFF-DUTY</span><b>🏸 羽毛球 · 5 年</b></div>
+      <div class="kv"><span>INTEREST</span><b>跨境电商 × Agent</b></div>
+      <div class="task"><span>TASK</span><b>TikTok 跨境电商运营台</b><div class="pbar"><i></i></div><small>shipping · 自动上品流水线</small></div>
+      <div class="kv"><span>UPTIME</span><b id="uptime">00:00:00</b></div>
+    </aside>
+
+    <div class="card" id="card">
+      <svg class="logo" viewBox="0 0 90 80" aria-hidden="true">
+        <path d="M8 6 V74 M8 40 H38 M38 6 V74"/>
+        <path d="M52 6 L67 36 L82 6 M67 36 V74"/>
+      </svg>
+      <div class="hero-seq" id="heroSeq">
+        <div class="hero-name"><span id="nameZh">黄奕锋</span><span class="dot">·</span><span class="en" id="nameEn">HUANG YIFENG</span></div>
+        <div class="hero-hi">你好，我是一名 <span class="role" id="role"></span><span class="caret"></span></div>
+        <p class="hero-p">我把复杂业务拆成「感知 → 决策 → 执行 → 复盘」的智能体工作流。做过人形机器人的双臂抓取 Agent，也做过 TikTokShop 美区的店铺增长，最近上线了自己的跨境电商运营台。写代码之外，我打羽毛球，听 Beyond。</p>
+        <div class="hero-hash" id="hash">*-Z244|47V+K-&lt;K4||NZ79-</div>
+        <div class="hr"></div>
+        <p class="hero-quote">好的 Agent 不是会聊天，而是能把事做完。</p>
+        <div class="hr"></div>
+        <div class="go"><span class="k">按 <kbd>M</kbd> 打开全部页面</span><a href="#/about">开始 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 8h12M9 3l5 5-5 5"/></svg></a></div>
+      </div>
+    </div>
+
+    <aside class="hud r"><h4>LIVE LOG</h4><div class="log" id="liveLog"></div></aside>
+
+    <nav class="dock" id="dock" aria-label="页面入口"></nav>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="page" data-page="about">
+  <div class="ph" data-a><span class="no">01 //</span><h1 data-scramble>关于我</h1><span class="ln"></span><span class="en">WHOAMI</span></div>
+  <div class="about-grid">
+    <div class="portrait" data-a>
+      <span class="tag">IMG://huangyifeng.raw</span>
+      <i class="c c1"></i><i class="c c2"></i><i class="c c3"></i><i class="c c4"></i>
+      <canvas id="ascii"></canvas>
+      <span class="tip">[ 移动鼠标 · 解码影像 ]</span>
+    </div>
+    <div class="about-text" data-a>
+      <h2>一半是 <em>AI Agent 工程师</em>，<br>一半是懂增长的 <em>运营人</em>。</h2>
+      <p>坐标深圳，毕业于深圳职业技术大学 · 人工智能学院 · 大数据技术专业。我熟悉 LangChain、LangGraph、MCP 与 RAG，能把一个模糊的业务问题拆成可调用的工具、可编排的状态图、可量化的指标，再让它在真机上、在真实的店铺里跑起来。</p>
+      <div class="edge">
+        <div class="edge-item"><span class="n">0x01</span><b>复合背景</b><span>AI Agent 应用开发 × 跨境电商业务，能把复杂业务拆解为感知、决策、执行、复盘的智能体工作流。</span></div>
+        <div class="edge-item"><span class="n">0x02</span><b>独立交付</b><span>运营台从后端、前端、浏览器插件、端到端测试到服务器部署，一个人做完并上线。</span></div>
+        <div class="edge-item"><span class="n">0x03</span><b>结果导向</b><span>Unitree G1 真机验证 + TikTokShop 美区运营，习惯用自动化流程和数据指标说话。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub" data-a>GROWTH PATH · 成长路径</div>
+  <div class="path" data-a>
+    <i class="runner"></i>
+    <div class="st"><span class="t">EDU</span><b>数据</b><span>深圳职业技术大学<br>人工智能学院 · 大数据技术</span></div>
+    <div class="st"><span class="t">2025.04</span><b>业务</b><span>TikTokShop 美区运营<br>懂选品、懂达人、懂指标</span></div>
+    <div class="st"><span class="t">2026.07</span><b>物理世界</b><span>Unitree G1 双臂抓取<br>让 Agent 驱动真实机械臂</span></div>
+    <div class="st"><span class="t">2026.09 → NOW</span><b>融合</b><span>跨境电商运营 Agent<br>把业务经验变成智能体</span></div>
+  </div>
+
+  <div class="sub" data-a>HOW I BUILD AGENTS · 我的 Agent 方法论</div>
+  <div class="method" data-a>
+    <div><span class="n">01</span><b>拆解</b><span>把业务拆成感知 / 决策 / 执行 / 复盘四段，先画清楚状态图再写代码。</span></div>
+    <div><span class="n">02</span><b>接工具</b><span>用 Function Calling、MCP 和浏览器插件，把数据库、ERP、表格、网页变成 Agent 能调用的工具。</span></div>
+    <div><span class="n">03</span><b>编排</b><span>用 LangGraph 管状态、分支、循环和失败回退，让流程可控、可追踪。</span></div>
+    <div><span class="n">04</span><b>增强</b><span>RAG 知识库 + 结构化输出 + 上下文管理，同时控制质量和成本。</span></div>
+    <div><span class="n">05</span><b>复盘</b><span>每一步留下状态和日志，缺什么就停下来提示人补，用数据驱动下一轮迭代。</span></div>
+  </div>
+
+  <div class="stats" data-a>
+    <div class="stat"><div class="v"><small>$</small><span data-count="12" data-suffix="K">0</span></div><div class="k">店铺月 GMV（从 $5K 起）</div></div>
+    <div class="stat"><div class="v"><span data-count="300" data-suffix="+">0</span></div><div class="k">建联海外达人</div></div>
+    <div class="stat"><div class="v"><span data-count="1.6" data-dec="1" data-suffix="%">0</span></div><div class="k">转化率（从 1.0% 提升）</div></div>
+    <div class="stat"><div class="v"><span data-count="7" data-suffix="DoF">0</span></div><div class="k">双臂逆运动学 · G1 真机</div></div>
+  </div>
+</section>
+
+<!-- ============ SKILLS ============ -->
+<section class="page" data-page="skills">
+  <div class="ph" data-a><span class="no">02 //</span><h1 data-scramble>技能星图</h1><span class="ln"></span><span class="en">CONSTELLATION</span></div>
+  <p class="lead" data-a>每颗星是一项技能，同一个星团是一个技术领域，连线表示它们怎样组合在一起用。把鼠标移到星星上看看。</p>
+  <div class="constellation" data-a><canvas id="cons"></canvas><div class="cons-tip" id="consTip"></div><span class="hint">悬停查看关联 · 点击星星聚焦领域 · 鼠标会推开星星</span></div>
+  <div class="legend" id="legend" data-a></div>
+  <div class="sub" data-a>FULL LIST · 完整清单</div>
+  <div class="win" data-a id="skillWin">
+    <div class="win-bar"><i></i><i></i><i></i><span>huangyifeng@stack: ~/skills</span></div>
+    <div class="skills-body" id="skillList"></div>
+  </div>
+</section>
+
+<!-- ============ EXPERIENCE ============ -->
+<section class="page" data-page="exp">
+  <div class="ph" data-a><span class="no">03 //</span><h1 data-scramble>经历</h1><span class="ln"></span><span class="en">GIT LOG --GRAPH</span></div>
+  <p class="lead" data-a><code>$ git log --graph --all</code><br>两条分支：一条通向真实的生意，一条通向真实的机器人，最后合并成我现在在做的事。</p>
+  <div class="git" id="git">
+    <svg class="graph" id="gitSvg"></svg>
+
+    <article class="commit" data-id="main" data-lane="0" data-a>
+      <span class="dot"></span>
+      <div class="hd"><span class="hash">2290460</span><span class="ref head">HEAD → main</span><span>2026.09 → now</span></div>
+      <h3>Merge: ecommerce + robotics → 跨境电商 Agent</h3>
+      <div class="role">个人项目 · TikTok 跨境电商运营台 / 跨境电商 AI 运营 Agent 平台</div>
+      <p class="desc">把运营经验和 Agent 工程能力合并：多 Agent 自动上品流水线、1688 找货、浏览器插件、知识库、每日简报，已部署上线。<a href="#/project">查看项目 →</a></p>
+    </article>
+
+    <article class="commit" data-id="robotics" data-lane="1" data-a>
+      <span class="dot"></span>
+      <div class="hd"><span class="hash">a7f3e21</span><span class="ref">robotics</span><span>2026.07 — 2026.09 · 珠海</span></div>
+      <h3>无界智慧（珠海）科技有限公司</h3>
+      <div class="role">AI Agent 应用开发实习生 / 规控算法</div>
+      <ul>
+        <li>基于 <b>RGB-D 相机 + SAM3</b> 完成箱体识别、点云处理、三维位姿计算和抓取点预测，打通视觉识别到双臂抓取的 Agent 执行链路。</li>
+        <li>开发 <b>双臂七自由度逆运动学</b> 与抓取动作流程，实现目标趋近、双臂抓取、夹取回撤等连续控制，并通过 <b>Unitree G1 真机验证</b>。</li>
+        <li>参与灵巧手小物体抓取开发，完成视觉定位、抓取规划与多指控制联动，沉淀可复用的人形机器人搬运基础能力。</li>
+        <li>分析视觉偏差、IK 不可达、机械臂异常和控制衔接问题，沉淀视觉数据、运行日志和异常排查流程，提升迭代效率。</li>
+      </ul>
+    </article>
+
+    <article class="commit" data-id="ecommerce" data-lane="0" data-a>
+      <span class="dot"></span>
+      <div class="hd"><span class="hash">3c9b0d4</span><span class="ref">ecommerce</span><span>2025.04 — 2025.07 · 深圳</span></div>
+      <h3>深圳市锦鸿云商电子商务有限公司</h3>
+      <div class="role">跨境电商运营实习生 / TikTokShop 美区</div>
+      <ul>
+        <li>参与运营 2 个 TikTokShop 美区店铺，维护 50+ SKU，店铺月 GMV 从 <b>$5,000 提升至 $12,000</b>。</li>
+        <li>每月筛选 50+ 潜力商品，测试上架 10+ 款，沉淀 3 款稳定出单款，单款月销最高 <b>$3,500</b>。</li>
+        <li>累计建联海外达人 <b>300+</b>，合作寄样 25+，产出带货视频 / 直播 40+，达人渠道月贡献 GMV 约 $5,000。</li>
+        <li>优化主图、标题和优惠券结构，商品页转化率从 <b>1.0% 提升至 1.6%</b>，退货率控制在 10% 以内。</li>
+      </ul>
+    </article>
+
+    <article class="commit" data-id="init" data-lane="0" data-a>
+      <span class="dot"></span>
+      <div class="hd"><span class="hash">0e1d5f8</span><span class="ref">tag: init</span><span>教育 · 深圳</span></div>
+      <h3>深圳职业技术大学</h3>
+      <div class="role">人工智能学院 · 大数据技术</div>
+    </article>
+  </div>
+</section>
+
+<!-- ============ PROJECT ============ -->
+<section class="page" data-page="project">
+  <div class="ph" data-a><span class="no">04 //</span><h1 data-scramble>项目</h1><span class="ln"></span><span class="en">SHIPPED</span></div>
+
+  <div class="proj-top" data-a>
+    <h2><small>PROJECT 01 · 2026.10 · 已上线</small>TikTok 跨境电商运营台</h2>
+    <p>面向 TikTok Shop 卖家的选品与内容工具：FastMoss 数据选品 → 硬指标与利润测算 → AI 选品分析与测款方案 → 一键带货视频脚本，配套知识库和可对话的 Agent。所有 AI 功能都调用真实模型，没有离线假数据。</p>
+  </div>
+  <div class="live-row" data-a>
+    <a class="btn" href="https://tkagent.hyff.cc.cd" target="_blank" rel="noopener">访问线上版 ↗</a>
+    <a class="btn ghost" href="https://github.com/serjofolio" target="_blank" rel="noopener">GitHub · serjofolio ↗</a>
+    <span class="m">tkagent.hyff.cc.cd · 仓库暂为私有</span>
+  </div>
+
+  <div class="win flowline" data-a>
+    <div class="win-bar"><i></i><i></i><i></i><span>多 Agent 自动上品流水线</span></div>
+    <div class="flow-steps" id="flowSteps">
+      <div><b>选品数据</b><span>FastMoss 导出 22 列自动识别</span></div>
+      <div><b>AI 研判</b><span>需求 / 趋势 / 达人 / 竞争 / 利润 / 风险</span></div>
+      <div><b>1688 找货</b><span>关键词 + 以图搜，比价矩阵</span></div>
+      <div><b>选定供应商</b><span>AI 判断同款度，成本上限</span></div>
+      <div><b>上架包</b><span>本地语言标题、卖点、定价、违禁词检查</span></div>
+      <div><b>人工确认</b><span>可设为全自动</span></div>
+      <div><b>推送 ERP</b><span>妙手 ERP / Webhook / CSV</span></div>
+    </div>
+  </div>
+
+  <div class="feat-grid" data-a>
+    <div><span class="i">/select</span><b>智能选品</b><span>六维评估给出「可以上 / 谨慎测试 / 不建议上」，识别刷单、低价引流等硬伤，按站点费率倒推采购上限。</span></div>
+    <div><span class="i">/script</span><b>视频脚本</b><span>按「钩子 → 痛点 → 演示 → 证明 → 行动号召」生成分镜，附 3 个备选钩子做 A/B 测款。</span></div>
+    <div><span class="i">/extension</span><b>浏览器插件</b><span>1688 关键词搜 / 以图搜一键发送货源，自动补详情；随机节奏防风控。</span></div>
+    <div><span class="i">/models</span><b>多模型接入</b><span>GLM、DeepSeek、Kimi、通义、豆包、OpenAI、Claude……一键启用、测试、拉取模型列表。</span></div>
+    <div><span class="i">/kb</span><b>知识库 + Agent</b><span>上传 Word / PDF / 网页切片检索；Agent 流式输出、标注来源、显示思考过程。</span></div>
+    <div><span class="i">/deploy</span><b>一键部署</b><span>systemd + Cloudflare 隧道，只监听本机端口，Host 白名单；Playwright 端到端测试。</span></div>
+  </div>
+  <div class="commits" data-a>
+    <div class="win-bar"><i></i><i></i><i></i><span>git log --oneline · 真实提交记录</span></div>
+    <div class="commit-ticker" id="ticker"></div>
+  </div>
+
+  <div class="sub" data-a>PROJECT 02 · 跨境电商 AI 运营 Agent 平台</div>
+  <div class="proj-top" data-a>
+    <h2><small>2026.09 → NOW · FastAPI + LangGraph + DeepSeek</small>全能运营智能体</h2>
+    <p>多模块运营 Agent：运营总览、风险分析、竞品分析、销售监控、广告分析、库存管理。打通本地数据库、飞书多维表格、易仓 ERP、Amazon SP-API、Chrome 商品采集和卖家精灵 MCP，导入数据后自动生成风险等级、异常任务和每日简报。</p>
+  </div>
+  <div class="proj-grid">
+    <div class="win diagram" data-a>
+      <svg viewBox="0 0 800 420" role="img" aria-label="Agent Loop 架构示意">
+        <path id="loop" class="flow" d="M200 90 H600 V330 H200 Z"/>
+        <line class="spoke" x1="400" y1="210" x2="200" y2="90"/><line class="spoke" x1="400" y1="210" x2="600" y2="90"/>
+        <line class="spoke" x1="400" y1="210" x2="600" y2="330"/><line class="spoke" x1="400" y1="210" x2="200" y2="330"/>
+        <line class="spoke" x1="70" y1="210" x2="200" y2="90"/><line class="spoke" x1="70" y1="210" x2="200" y2="330"/>
+        <line class="spoke" x1="730" y1="210" x2="600" y2="90"/><line class="spoke" x1="730" y1="210" x2="600" y2="330"/>
+        <g class="core"><circle class="pulse" cx="400" cy="210" r="46" stroke-width="1"/><circle cx="400" cy="210" r="52" stroke-width="1.2"/><circle cx="400" cy="210" r="40" stroke-width=".6" stroke-dasharray="2 4"/>
+          <text x="400" y="206">LangGraph</text><text x="400" y="224">AGENT LOOP</text></g>
+        <g class="nd"><rect x="140" y="62" width="120" height="56"/><text x="200" y="90">感知</text><text class="s" x="200" y="108">PERCEIVE</text></g>
+        <g class="nd"><rect x="540" y="62" width="120" height="56"/><text x="600" y="90">决策</text><text class="s" x="600" y="108">DECIDE</text></g>
+        <g class="nd"><rect x="540" y="302" width="120" height="56"/><text x="600" y="330">执行</text><text class="s" x="600" y="348">ACT</text></g>
+        <g class="nd"><rect x="140" y="302" width="120" height="56"/><text x="200" y="330">复盘</text><text class="s" x="200" y="348">REFLECT</text></g>
+        <g class="tool"><rect x="10" y="150" width="120" height="26"/><text x="70" y="167">飞书多维表格</text></g>
+        <g class="tool"><rect x="10" y="197" width="120" height="26"/><text x="70" y="214">易仓 ERP</text></g>
+        <g class="tool"><rect x="10" y="244" width="120" height="26"/><text x="70" y="261">RAG 知识库</text></g>
+        <g class="tool"><rect x="670" y="150" width="120" height="26"/><text x="730" y="167">Amazon SP-API</text></g>
+        <g class="tool"><rect x="670" y="197" width="120" height="26"/><text x="730" y="214">卖家精灵 MCP</text></g>
+        <g class="tool"><rect x="670" y="244" width="120" height="26"/><text x="730" y="261">Chrome 采集</text></g>
+        <g class="pk">
+          <circle r="4"><animateMotion dur="6s" repeatCount="indefinite"><mpath href="#loop"/></animateMotion></circle>
+          <circle r="3" opacity=".7"><animateMotion dur="6s" begin="-1.5s" repeatCount="indefinite"><mpath href="#loop"/></animateMotion></circle>
+          <circle r="4"><animateMotion dur="6s" begin="-3s" repeatCount="indefinite"><mpath href="#loop"/></animateMotion></circle>
+          <circle r="3" opacity=".7"><animateMotion dur="6s" begin="-4.5s" repeatCount="indefinite"><mpath href="#loop"/></animateMotion></circle>
+        </g>
+      </svg>
+    </div>
+    <div class="win sim" data-a>
+      <div class="win-bar"><i></i><i></i><i></i><span>agent run · 演示数据</span></div>
+      <div class="sim-out" id="simOut"></div>
+      <div class="sim-foot"><button class="btn" id="simRun">▶ 运行一次 Agent</button><span>演示数据，仅展示工作流程</span></div>
+    </div>
+  </div>
+  <div class="win brief" id="brief"></div>
+</section>
+
+<!-- ============ ROBOT ============ -->
+<section class="page" data-page="robot">
+  <div class="ph" data-a><span class="no">05 //</span><h1 data-scramble>机器人</h1><span class="ln"></span><span class="en">UNITREE G1</span></div>
+  <p class="lead" data-a>2026 年夏天在无界智慧，我做的是让 Agent 驱动一台真实的人形机器人：从一帧 RGB-D 图像开始，到双臂把箱子抓起、收回。下面两个是根据这段经历做的交互示意。</p>
+  <div class="pipeline" id="pipe" data-a>
+    <span data-n="1">RGB-D 采集</span><span data-n="2">SAM3 分割</span><span data-n="3">点云处理</span><span data-n="4">位姿估计</span><span data-n="5">抓取点预测</span><span data-n="6">双臂 IK</span><span data-n="7">抓取执行</span><span data-n="8">夹取回撤</span>
+  </div>
+  <div class="robot-grid">
+    <div class="viz" data-a><canvas id="cloud"></canvas><span class="cap">POINT CLOUD · POSE</span><span class="cap2" id="cloudStat"></span><span class="note">拖动旋转 · 演示数据</span></div>
+    <div class="viz" data-a><canvas id="arms"></canvas><span class="cap">DUAL-ARM IK</span><span class="warn" id="ikWarn">⚠ IK 不可达</span><span class="note">移动鼠标控制目标 · 平面简化示意（真机为双臂 7-DoF）</span></div>
+  </div>
+  <div class="sub" data-a>ON SITE · 现场照片</div>
+  <div class="photos" data-a>
+    <figure><img src="img/g1-grasp.jpg" alt="Unitree G1 下蹲双臂抓取纸箱" loading="lazy"><figcaption><b>REC 01</b> 下蹲 · 双臂夹取纸箱</figcaption></figure>
+    <figure><img src="img/g1-reach.jpg" alt="Unitree G1 双臂趋近目标" loading="lazy"><figcaption><b>REC 02</b> 目标趋近 · 双臂伸出</figcaption></figure>
+    <figure class="wide"><img src="img/g1-lab.jpg" alt="实验室里调试 G1 抓取箱子" loading="lazy"><figcaption><b>REC 03</b> 实验室联调 · 视觉识别箱体</figcaption></figure>
+  </div>
+  <div class="lightbox" id="lightbox" hidden><img alt=""><span></span></div>
+  <div class="sub" data-a>WHAT I DID · 我做了什么</div>
+  <div class="cards4" data-a>
+    <div><span class="n">01</span><b>视觉 → 位姿</b>基于 RGB-D 相机与 SAM3 完成箱体识别、点云处理、三维位姿计算和抓取点预测。</div>
+    <div><span class="n">02</span><b>双臂 7-DoF IK</b>开发双臂七自由度逆运动学与抓取动作：目标趋近、双臂抓取、夹取回撤，Unitree G1 真机验证。</div>
+    <div><span class="n">03</span><b>灵巧手</b>参与小物体抓取：视觉定位、抓取规划与多指控制联动，沉淀人形机器人搬运基础能力。</div>
+    <div><span class="n">04</span><b>排查流程</b>分析视觉偏差、IK 不可达、机械臂异常和控制衔接问题，沉淀数据、日志和排查流程。</div>
+  </div>
+</section>
+
+<!-- ============ LIFE ============ -->
+<section class="page" data-page="life">
+  <div class="ph" data-a><span class="no">06 //</span><h1 data-scramble>生活</h1><span class="ln"></span><span class="en">OFF DUTY</span></div>
+  <p class="lead" data-a>代码之外的我。</p>
+  <div class="life-grid">
+    <div class="win court-win" data-a>
+      <div class="win-bar"><i></i><i></i><i></i><span>badminton.exe · 点击球场扣杀</span></div>
+      <div class="court"><canvas id="court"></canvas><span class="rally" id="rally">RALLY 0</span></div>
+    </div>
+    <div class="life-text" data-a>
+      <span class="t">SPORT</span>
+      <h2>🏸 羽毛球</h2>
+      <p>写代码之外，我最喜欢的运动是羽毛球，已经打了 <b class="g">5 年</b>。最喜欢的球员是<b class="g">李宗伟</b>。</p>
+      <p class="m">左边的球场可以点一下：在任意位置点击，就是一记扣杀。</p>
+    </div>
+  </div>
+
+  <div class="sub" data-a>IDOLS · 偶像</div>
+  <div class="idols">
+    <div class="idol" data-a>
+      <div class="vinyl shuttle"><i></i><span>LCW</span></div>
+      <div>
+        <span class="t">BADMINTON</span>
+        <h3>李宗伟</h3>
+        <p>马来西亚羽毛球运动员，职业生涯约 19 年：连续 6 年年终世界排名第一，705 场胜利、69 个世界羽联赛事冠军。2008、2012、2016 连续三届奥运会男单决赛都拿了亚军，世锦赛也始终没能夺冠。2018 年确诊鼻咽癌，治疗后仍想复出冲击东京奥运，最终在 2019 年 6 月宣布退役。</p>
+        <p class="why">我打了 5 年羽毛球，最喜欢他。一个人三次站上奥运决赛、三次输掉，还一直想再回去，这比金牌更打动我。</p>
+      </div>
+    </div>
+    <div class="idol" data-a>
+      <div class="vinyl"><i></i><span>BEYOND</span></div>
+      <div>
+        <span class="t">MUSIC</span>
+        <h3>黄家驹</h3>
+        <p>Beyond 乐队主唱、创作人（1962–1993）。《海阔天空》《光辉岁月》《真的爱你》，是我写代码时反复循环的歌。</p>
+        <blockquote>原谅我这一生不羁放纵爱自由</blockquote>
+      </div>
+    </div>
+    <div class="idol" data-a>
+      <div class="vinyl alt"><i></i><span>★</span></div>
+      <div>
+        <span class="t">CREATOR</span>
+        <h3>鲁大魔</h3>
+        <p>本名鲁岳，抖音号 ludamobiubiu。泛知识领域的自媒体创作者，内容以创业经历感悟分享、生活旅行随拍为主。</p>
+        <blockquote>把抽象的想法变成具体的产品</blockquote>
+        <p class="why">他讲的「从微观的角度思考，才会看到具象化、可执行的指标」，和我做 Agent 的思路一样：先把模糊的事拆成能执行的一步一步。</p>
+      </div>
+    </div>
+  </div>
+  <p class="life-note" data-a>右下角的「空间：聆听」可以打开背景音乐，是浏览器实时合成的氛围音乐，背景字符会跟着节奏跳动。</p>
+</section>
+
+<!-- ============ LIBRARY ============ -->
+<section class="page" data-page="lib">
+  <div class="ph" data-a><span class="no">07 //</span><h1 data-scramble>资料库</h1><span class="ln"></span><span class="en">LIBRARY</span></div>
+  <p class="lead" data-a>从我的收藏夹里挑出来、反复打开的资料，按学习路线排好，每条附一句点评。下面还有做项目时踩过的坑。</p>
+  <div class="lib-bar" data-a>
+    <div class="lib-filter" id="libFilter"></div>
+    <label class="lib-search"><span>⌕</span><input id="libSearch" placeholder="搜索资料…" autocomplete="off"></label>
+  </div>
+  <div class="lib-grid" id="libGrid"></div>
+
+  <div class="sub" data-a>FIELD NOTES · 踩坑笔记</div>
+  <p class="lead" data-a>来自运营台真实的 commit 记录和机器人项目。点开看问题和解法。</p>
+  <div class="notes" id="notes" data-a></div>
+</section>
+
+<!-- ============ AI TWIN ============ -->
+<section class="page" data-page="ask">
+  <div class="ph" data-a><span class="no">08 //</span><h1 data-scramble>AI 分身</h1><span class="ln"></span><span class="en">ASK ME ANYTHING</span></div>
+  <div class="ask" data-a>
+    <div class="win chat">
+      <div class="chat-head"><span class="av"><img id="askAvatar" alt=""></span><div><b>黄奕锋 · AI 分身</b><small>● online · 本地知识库</small></div></div>
+      <div class="msgs" id="msgs"></div>
+      <div class="chips" id="chips"></div>
+      <form class="chat-in" id="chatForm"><span class="g">&gt;</span><input id="chatIn" placeholder="问我任何关于我的问题…" autocomplete="off" aria-label="向 AI 分身提问"><button class="btn" type="submit">发送</button></form>
+    </div>
+    <div class="win trace"><div class="win-bar"><i></i><i></i><i></i><span>agent trace</span></div><div class="tl" id="trace"></div></div>
+  </div>
+</section>
+
+<!-- ============ TERMINAL ============ -->
+<section class="page" data-page="terminal">
+  <div class="ph" data-a><span class="no">09 //</span><h1 data-scramble>终端</h1><span class="ln"></span><span class="en">SHELL</span></div>
+  <div class="win term-win" data-a>
+    <div class="win-bar"><i></i><i></i><i></i><span>guest@huangyifeng: ~ — zsh</span></div>
+    <div id="term"></div>
+  </div>
+  <div class="term-hint" data-a>试试 <code data-cmd="neofetch">neofetch</code><code data-cmd="help">help</code><code data-cmd="cd robot">cd robot</code><code data-cmd="theme green">theme green</code><code data-cmd="hobby">hobby</code><code data-cmd="hack">hack</code></div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="page" data-page="contact">
+  <div class="ph" data-a><span class="no">10 //</span><h1 data-scramble>联系</h1><span class="ln"></span><span class="en">CONNECT</span></div>
+  <div class="contact-stage">
+    <div class="radar"><i></i><i></i><i></i></div>
+    <div class="big" data-a><span>让我们一起</span><br>构建下一个 <em>Agent</em></div>
+    <div class="contact-row" data-a>
+      <a class="chip gold" id="phone" href="tel:18929375197"><small>TEL</small><span id="phoneText">189 •••• ••••</span></a>
+      <button class="chip" id="copyPhone"><small>COPY</small><span id="copyLbl">复制号码</span></button>
+      <a class="chip" href="mailto:2407387278@qq.com"><small>MAIL</small>2407387278@qq.com</a>
+      <span class="chip"><small>WECHAT</small>18929375197</span>
+      <a class="chip" href="https://github.com/serjofolio" target="_blank" rel="noopener"><small>GIT</small>serjofolio</a>
+      <a class="chip" href="resume.docx" download><small>CV</small>下载简历</a>
+    </div>
+    <p class="contact-note" data-a>深圳 · 微信号同手机号 · 聊技术、聊跨境、聊羽毛球都欢迎</p>
+  </div>
+</section>
+
+</main>
+
+<script src="assets/profile.js"></script>
+<script src="assets/core.js"></script>
+<script src="assets/pages.js"></script>
+</body>
+</html>

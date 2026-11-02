@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="gold">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>模型接入 · HYF-OS</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 80'><path d='M8 6V74M8 40H38M38 6V74M52 6L67 36L82 6M67 36V74' fill='none' stroke='%23e9b45c' stroke-width='10'/></svg>">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/admin.css">
+</head>
+<body>
+<div class="bg"></div>
+
+<p id="loading" class="loading">正在连接后台…</p>
+<!-- 登录 / 首次设置 -->
+<section id="auth" class="auth" hidden>
+  <form class="auth-box" id="authForm">
+    <svg class="logo" viewBox="0 0 90 80"><path d="M8 6V74M8 40H38M38 6V74M52 6L67 36L82 6M67 36V74"/></svg>
+    <h1 id="authTitle">模型接入后台</h1>
+    <p id="authTip">输入后台密码</p>
+    <input type="password" id="authPass" placeholder="密码" autocomplete="current-password" required minlength="6">
+    <button class="btn" type="submit" id="authBtn">登录</button>
+    <div class="err" id="authErr"></div>
+    <a href="./" class="back">← 返回网站</a>
+  </form>
+</section>
+
+<!-- 主界面 -->
+<section id="app" class="app" hidden>
+  <header class="top">
+    <div class="brand"><svg class="logo sm" viewBox="0 0 90 80"><path d="M8 6V74M8 40H38M38 6V74M52 6L67 36L82 6M67 36V74"/></svg><b>HYF-OS</b><span>模型接入</span></div>
+    <div class="tabs"><button class="on" data-tab="providers">供应商</button><button data-tab="persona">分身人设</button><button data-tab="play">试聊</button></div>
+    <div class="top-r"><a class="ghost" href="./#/ask" target="_blank">打开分身 ↗</a><button class="ghost" id="logout">退出</button></div>
+  </header>
+
+  <!-- 供应商 -->
+  <main class="tab" data-pane="providers">
+    <div class="current" id="current"></div>
+    <div class="bar">
+      <h2>供应商 <small id="count"></small></h2>
+      <button class="btn" id="addBtn">＋ 添加供应商</button>
+    </div>
+    <div class="list" id="list"></div>
+    <p class="foot">API Key 只保存在服务器的 <code>data/twin.json</code>，不会发送到浏览器。访客提问限流：每个 IP 10 分钟 20 次。</p>
+  </main>
+
+  <!-- 人设 -->
+  <main class="tab" data-pane="persona" hidden>
+    <div class="bar"><h2>分身人设</h2><button class="btn" id="savePersona">保存</button></div>
+    <p class="hint">分身默认读取 <code>assets/profile.js</code> 里的全部资料。这里可以补充额外要求，比如语气、想强调的事情、不想谈的话题。</p>
+    <div class="modes">
+      <label class="mode"><input type="radio" name="mode" value="twin"><b>分身模式</b><span>只聊和我有关的话题，闲聊简短回答，不帮访客写代码写作业。省额度，推荐公开网站使用。</span></label>
+      <label class="mode"><input type="radio" name="mode" value="open"><b>通用助手模式</b><span>像普通 GLM 一样什么都能答，涉及我时用第一人称。注意：访客会消耗你的模型额度（仍有每 IP 10 分钟 20 次的限流）。</span></label>
+    </div>
+    <textarea id="persona" rows="8" placeholder="例如：回答时多提我对跨境电商和 AI Agent 的兴趣；语气轻松一点；被问到薪资时说可以面谈。"></textarea>
+    <details class="prompt"><summary>查看完整系统提示词</summary><pre id="promptView"></pre></details>
+  </main>
+
+  <!-- 试聊 -->
+  <main class="tab" data-pane="play" hidden>
+    <div class="bar"><h2>试聊</h2><span class="hint" id="playMeta"></span></div>
+    <div class="play" id="playLog"></div>
+    <form class="play-in" id="playForm"><input id="playIn" placeholder="以访客身份问一句…" autocomplete="off"><button class="btn">发送</button></form>
+  </main>
+</section>
+
+<!-- 编辑抽屉 -->
+<div class="drawer" id="drawer" hidden>
+  <form class="panel" id="form">
+    <div class="ph"><h3 id="formTitle">添加供应商</h3><button type="button" class="x" id="closeDrawer">✕</button></div>
+    <label class="lb">选择预设</label>
+    <div class="presets" id="presets"></div>
+    <div class="grid">
+      <label>名称<input name="name" required></label>
+      <label>协议<select name="protocol"><option value="openai">OpenAI 兼容</option><option value="anthropic">Anthropic</option></select></label>
+    </div>
+    <label>Base URL<input name="baseUrl" required placeholder="https://…"><small id="urlNote" class="warn"></small></label>
+    <label>API Key <a id="keyLink" target="_blank" rel="noopener"></a>
+      <span class="pw"><input name="apiKey" type="password" autocomplete="off" placeholder="sk-…"><button type="button" id="eye">显示</button></span>
+    </label>
+    <label>模型
+      <span class="pw"><input name="model" list="modelList" required placeholder="如 deepseek-chat"><button type="button" id="fetchModels">获取模型列表</button></span>
+      <datalist id="modelList"></datalist>
+      <small id="modelNote"></small>
+    </label>
+    <div class="chips" id="modelChips"></div>
+    <label>温度 <output id="tempOut">0.7</output><input name="temperature" type="range" min="0" max="1.5" step="0.1" value="0.7"></label>
+    <div class="err" id="formErr"></div>
+    <div class="actions"><button type="button" class="ghost" id="cancel">取消</button><button class="btn" type="submit">保存</button></div>
+  </form>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="assets/admin.js"></script>
+</body>
+</html>
